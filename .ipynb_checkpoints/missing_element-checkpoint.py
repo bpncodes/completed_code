@@ -103,3 +103,60 @@ def check(list1,list2):
                     init+=1
                     print(temp1,temp2)
                     count = 1
+
+#Optimised to this 
+def finder(list1,list2):
+    count = 0
+    init = 0
+    if len(list1) == 1 and len(list2) == 1 or len(list1) == len(list2):
+        return
+    if len(list1)>len(list2):
+        temp1 = list1
+        temp2 = list2
+    else:
+        temp1 = list2
+        temp2 = list1
+    for ind in range(len(temp1)):
+        i = temp1[init]
+        if len(temp2)==1:
+            if i in temp2:
+                temp1.remove(i)
+                if len(temp1) > 1:
+                    return
+                result = temp1[0]
+                return result
+            else:
+                if temp2[0] == temp1[0] or temp2[0] != temp1[1]: 
+                    result = temp1[1]
+                if temp2[0] != temp1[0] or temp2[0] == temp1[1]:
+                    result = temp1[0]
+                    return result
+                else:
+                    return
+        try:
+            if i in temp2:
+                temp1.remove(i)
+                temp2.remove(i)
+            else:
+                init+=1
+        except:
+            if count == 1:
+                return
+            else:
+                init+=1
+                count = 1
+                
+
+from nose.tools import assert_equal
+
+class TestFinder(object):
+    
+    def test(self,sol):
+        assert_equal(sol([5,5,7,7],[5,7,7]),5)
+        assert_equal(sol([1,2,3,4,5,6,7],[3,7,2,1,4,6]),5)
+        assert_equal(sol([9,8,7,6,5,4,3,2,1],[9,8,7,5,4,3,2,1]),6)
+        print ('ALL TEST CASES PASSED')
+
+# Run test
+t = TestFinder()
+t.test(finder)
